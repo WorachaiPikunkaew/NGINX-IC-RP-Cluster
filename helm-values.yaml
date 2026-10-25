@@ -1,4 +1,6 @@
 controller:
+  nodeSelector:
+    role: ingress
   kind: deployment
   replicaCount: 4
   enableCustomResources: true
@@ -13,7 +15,7 @@ controller:
     - maxSkew: 1
       topologyKey: kubernetes.io/hostname
       whenUnsatisfiable: DoNotSchedule
-      nodeTaintsPolicy: Honor
+      # nodeTaintsPolicy: Honor
       labelSelector:
         matchLabels:
           app.kubernetes.io/name: nginx-ingress
