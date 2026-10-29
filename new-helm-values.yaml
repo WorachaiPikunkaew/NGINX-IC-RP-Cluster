@@ -1,0 +1,28 @@
+controller:
+  nodeSelector:
+    role: ingress 
+  defaultTLS:
+    secret: edge/web-frontend-tls
+  enableCustomResources: true
+  ingressClass:
+    name: nginx
+  kind: deployment
+  replicaCount: 2
+  service:
+    externalTrafficPolicy: Local
+    httpPort:
+      enable: true
+      nodePort: 30080
+    httpsPort:
+      enable: true
+      nodePort: 30443
+    type: NodePort
+  topologySpreadConstraints:
+  - labelSelector:
+      matchLabels:
+        app.kubernetes.io/instance: nginx-ingress
+        app.kubernetes.io/name: nginx-ingress
+    maxSkew: 1
+      # nodeTaintsPolicy: Honor
+    topologyKey: kubernetes.io/hostname
+    whenUnsatisfiable: DoNotSchedule
